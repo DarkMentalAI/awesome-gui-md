@@ -1,0 +1,38 @@
+{
+  "title": "Data Dashboard",
+  "slug": "data-dashboard",
+  "category": "Data Interfaces",
+  "tags": [
+    "dashboard",
+    "metrics",
+    "filters",
+    "table",
+    "bulk-actions"
+  ],
+  "platform": [
+    "web"
+  ],
+  "files": [
+    "README.md",
+    "GUI.md",
+    "HTML.md"
+  ],
+  "status_coverage": [
+    "initial-loading",
+    "ready",
+    "filtered",
+    "empty",
+    "no-results",
+    "error",
+    "selected",
+    "processing"
+  ],
+  "accessibility_notes": [
+    "Tables must expose semantic headers and row relationships.",
+    "Sortable columns and selected counts need programmatic announcements.",
+    "Filter controls require labels and visible active-filter state.",
+    "Row actions, bulk actions, retry, and pagination must be keyboard reachable."
+  ],
+  "entry_status": "draft",
+  "last_reviewed": "2026-05-22"
+}

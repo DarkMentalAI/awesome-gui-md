@@ -1,0 +1,65 @@
+name: GUI.md request
+description: Propose a new GUI.md entry with verifiable behavior and source details.
+title: "[GUI.md] "
+labels: ["gui-md", "request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        GUI.md is not a screenshot wall. A useful entry must explain how the interface is structured, what states it supports, how users interact with it, how accessibility is handled, and where the source material comes from.
+  - type: input
+    id: name
+    attributes:
+      label: Interface or pattern name
+      description: Name the product, component, workflow, or GUI pattern being proposed.
+      placeholder: "Example: Command palette with scoped search"
+    validations:
+      required: true
+  - type: textarea
+    id: structure
+    attributes:
+      label: Structure
+      description: Describe the layout, hierarchy, primary regions, navigation model, and key content blocks.
+      placeholder: "Header, sidebar, command list, result preview, empty state..."
+    validations:
+      required: true
+  - type: textarea
+    id: states
+    attributes:
+      label: States
+      description: List the meaningful UI states that should be documented.
+      placeholder: "Default, loading, empty, error, focused, selected, disabled, permission denied..."
+    validations:
+      required: true
+  - type: textarea
+    id: interaction
+    attributes:
+      label: Interaction
+      description: Explain user actions, keyboard behavior, pointer behavior, validation, transitions, and feedback.
+      placeholder: "Typing filters results; Arrow keys move selection; Enter opens the selected item..."
+    validations:
+      required: true
+  - type: textarea
+    id: accessibility
+    attributes:
+      label: Accessibility
+      description: Cover keyboard access, focus order, semantics, contrast, reduced motion, labels, and assistive technology behavior.
+      placeholder: "Uses roving tabindex; announces result count; focus returns to trigger on close..."
+    validations:
+      required: true
+  - type: textarea
+    id: source_license
+    attributes:
+      label: Source and license
+      description: Provide URLs, authorship, license terms, and permission notes for any referenced design, text, image, code, or data.
+      placeholder: "Source URL, license name, permission status, attribution requirements..."
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence or references
+      description: Add links, recordings, specs, documentation, implementation references, or screenshots only as supporting evidence.
+      placeholder: "Links to docs, public repo, design system page, demo, issue, or annotated screenshots..."
+    validations:
+      required: false

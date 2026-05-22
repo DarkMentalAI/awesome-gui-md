@@ -1,0 +1,38 @@
+{
+  "title": "Settings Panel",
+  "slug": "settings-panel",
+  "category": "Forms and Settings",
+  "tags": [
+    "settings",
+    "forms",
+    "validation",
+    "permissions",
+    "destructive-actions"
+  ],
+  "platform": [
+    "web"
+  ],
+  "files": [
+    "README.md",
+    "GUI.md",
+    "HTML.md"
+  ],
+  "status_coverage": [
+    "clean",
+    "dirty",
+    "invalid",
+    "saving",
+    "saved",
+    "save-error",
+    "permission-limited",
+    "confirming-destructive-action"
+  ],
+  "accessibility_notes": [
+    "Inputs need visible labels with descriptions and errors associated to controls.",
+    "Save status and validation failures should be announced.",
+    "Failed validation should move focus to the first invalid field.",
+    "Destructive confirmations must be keyboard reachable and restore focus when cancelled."
+  ],
+  "entry_status": "draft",
+  "last_reviewed": "2026-05-22"
+}

@@ -1,0 +1,65 @@
+name: Pattern improvement
+description: Improve an existing GUI.md pattern with behavior, accessibility, or source corrections.
+title: "[Pattern] "
+labels: ["gui-md", "improvement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        GUI.md is not a screenshot wall. Improvements should make the documented pattern more useful by clarifying structure, states, interaction, accessibility, or source/licensing details.
+  - type: input
+    id: pattern
+    attributes:
+      label: Pattern or file
+      description: Link or name the GUI.md pattern that should be improved.
+      placeholder: "Example: docs/patterns/command-palette.md"
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: What needs improvement
+      description: Describe the current gap, ambiguity, incorrect behavior, or missing documentation.
+      placeholder: "The pattern lists a loading state but does not explain focus behavior while results update."
+    validations:
+      required: true
+  - type: textarea
+    id: structure
+    attributes:
+      label: Structure impact
+      description: Explain whether the layout, hierarchy, regions, navigation, or content model should change.
+      placeholder: "Add a result preview region and clarify how grouped results are ordered."
+    validations:
+      required: true
+  - type: textarea
+    id: states
+    attributes:
+      label: State coverage
+      description: List affected states and any missing states that should be documented.
+      placeholder: "Loading, no results, network error, keyboard focus, active selection..."
+    validations:
+      required: true
+  - type: textarea
+    id: interaction
+    attributes:
+      label: Interaction impact
+      description: Describe changed user flows, keyboard support, pointer behavior, validation, feedback, or motion.
+      placeholder: "Escape clears the query first, then closes the palette on the second press."
+    validations:
+      required: true
+  - type: textarea
+    id: accessibility
+    attributes:
+      label: Accessibility impact
+      description: Explain keyboard, focus, semantics, labels, contrast, reduced motion, and assistive technology implications.
+      placeholder: "Announce result count changes with polite live region updates."
+    validations:
+      required: true
+  - type: textarea
+    id: source_license
+    attributes:
+      label: Source and license
+      description: Provide source URLs, license terms, attribution requirements, and permission notes for any new or corrected references.
+      placeholder: "Source URL, license name, permission status, attribution requirements..."
+    validations:
+      required: true

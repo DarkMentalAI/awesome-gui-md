@@ -1,0 +1,38 @@
+{
+  "title": "Command Palette",
+  "slug": "command-palette",
+  "category": "Application Shells",
+  "tags": [
+    "keyboard",
+    "search",
+    "commands",
+    "modal",
+    "productivity"
+  ],
+  "platform": [
+    "web"
+  ],
+  "files": [
+    "README.md",
+    "GUI.md",
+    "HTML.md"
+  ],
+  "status_coverage": [
+    "closed",
+    "opening",
+    "ready",
+    "filtering",
+    "loading",
+    "empty",
+    "error",
+    "confirming"
+  ],
+  "accessibility_notes": [
+    "Dialog semantics and focus restoration are required for Web adapters.",
+    "Search input must have an accessible label and receive focus on open.",
+    "Result navigation must expose the active item programmatically.",
+    "Loading, empty, and error states should be announced without relying on color alone."
+  ],
+  "entry_status": "draft",
+  "last_reviewed": "2026-05-22"
+}
