@@ -91,7 +91,9 @@ v1 validation is intentionally lightweight. It checks:
 - required fields and required sections are present;
 - adapter frontmatter constraints and metadata required fields are checked;
 - `meta.json.category` uses a primary taxonomy category;
-- `meta.json.entry_status` is recognized.
+- `meta.json.entry_status` is recognized;
+- `meta.json.slug` is lowercase hyphenated, matches the entry directory, and is unique;
+- `meta.json.last_reviewed` is a valid `YYYY-MM-DD` calendar date.
 
 v1 validation does not validate every controlled vocabulary or judge prose
 quality, visual design, implementation code, screenshots, or generated UI

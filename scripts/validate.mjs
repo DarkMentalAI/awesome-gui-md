@@ -48,6 +48,7 @@ const forbiddenTagAliases = new Map([
   ['commands', 'command'],
 ]);
 const tagPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 
 const issues = [];
 
@@ -217,6 +218,15 @@ function validateTags(filePath, tags) {
   }
 }
 
+function isValidIsoDate(value) {
+  if (typeof value !== 'string' || !isoDatePattern.test(value)) {
+    return false;
+  }
+
+  const date = new Date(`${value}T00:00:00.000Z`);
+  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
+}
+
 function extractH2Sections(markdown) {
   return markdown
     .split('\n')
@@ -275,7 +285,7 @@ function validateHtml(filePath, markdown, requiredSections) {
   validateSections(filePath, parsed.body, requiredSections);
 }
 
-function validateMeta(filePath, text, categories) {
+function validateMeta(filePath, text, categories, entryDir, seenSlugs) {
   let data;
 
   try {
@@ -307,6 +317,36 @@ function validateMeta(filePath, text, categories) {
 
   if (Object.prototype.hasOwnProperty.call(data, 'tags')) {
     validateTags(filePath, data.tags);
+  }
+
+  if (Object.prototype.hasOwnProperty.call(data, 'slug')) {
+    const entrySlug = path.basename(entryDir);
+
+    if (typeof data.slug !== 'string' || data.slug.trim() === '') {
+      addIssue(filePath, 'slug must be a non-empty string');
+    } else {
+      if (!tagPattern.test(data.slug)) {
+        addIssue(filePath, 'slug must be lowercase hyphenated');
+      }
+
+      if (data.slug !== entrySlug) {
+        addIssue(filePath, `slug must match entry directory ${entrySlug}`);
+      }
+
+      const previousSlugPath = seenSlugs.get(data.slug);
+      if (previousSlugPath) {
+        addIssue(filePath, `slug duplicates ${toPosixPath(previousSlugPath)}`);
+      } else {
+        seenSlugs.set(data.slug, filePath);
+      }
+    }
+  }
+
+  if (
+    Object.prototype.hasOwnProperty.call(data, 'last_reviewed') &&
+    !isValidIsoDate(data.last_reviewed)
+  ) {
+    addIssue(filePath, 'last_reviewed must be a valid ISO date in YYYY-MM-DD format');
   }
 
   if (Object.prototype.hasOwnProperty.call(data, 'files')) {
@@ -367,7 +407,7 @@ async function listEntryDirs() {
     .sort((left, right) => left.localeCompare(right));
 }
 
-async function validateEntry(entryDir, guiSections, htmlSections, categories) {
+async function validateEntry(entryDir, guiSections, htmlSections, categories, seenSlugs) {
   for (const fileName of requiredEntryFiles) {
     const filePath = path.join(entryDir, fileName);
     if (!(await fileExists(filePath))) {
@@ -387,7 +427,7 @@ async function validateEntry(entryDir, guiSections, htmlSections, categories) {
 
   const metaPath = path.join(entryDir, 'meta.json');
   if (await fileExists(metaPath)) {
-    validateMeta(metaPath, await readText(metaPath), categories);
+    validateMeta(metaPath, await readText(metaPath), categories, entryDir, seenSlugs);
   }
 }
 
@@ -400,9 +440,10 @@ async function main() {
   const htmlSections = extractH2Sections(await readText(htmlTemplatePath));
   const categories = extractTaxonomyCategories(await readText(taxonomyPath));
   const entryDirs = await listEntryDirs();
+  const seenSlugs = new Map();
 
   for (const entryDir of entryDirs) {
-    await validateEntry(entryDir, guiSections, htmlSections, categories);
+    await validateEntry(entryDir, guiSections, htmlSections, categories, seenSlugs);
   }
 
   if (issues.length > 0) {
