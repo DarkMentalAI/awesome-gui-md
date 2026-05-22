@@ -27,6 +27,7 @@ Each pattern entry must include:
 - `GUI.md`
 - `HTML.md`
 - `README.md`
+- `meta.json`
 
 Each entry should explain:
 

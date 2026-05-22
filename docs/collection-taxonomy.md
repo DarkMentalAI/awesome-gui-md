@@ -94,9 +94,9 @@ Entry metadata also includes `entry_status` for draft, reviewed, stable, or depr
 Tag rules:
 
 - Prefer specific tags over broad tags. Use `bulk-actions` instead of only `data`.
-- Do not create synonyms. Use `screen-reader`, not both `screenreader` and `sr`.
+- Use canonical tags that are lowercase, hyphenated, and singular where applicable.
 - Do not tag visual style unless it changes interface behavior or reuse constraints.
-- Keep tags lowercase and hyphenated.
+- Avoid synonyms and near-duplicates. Use `form`, not `forms`; `destructive-action`, not `destructive-actions`; `dialog`, not `modal`.
 - Add a new tag only when at least two entries are likely to use it.
 - Use secondary categories sparingly; most entries should have one primary category and behavior tags.
 - Retire tags that become ambiguous, duplicated, or too broad to help discovery.
