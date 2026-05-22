@@ -61,7 +61,7 @@ The palette appears centered on desktop and as a near-full-width sheet on narrow
 - **Purpose:** Filters commands.
 - **Anatomy:** text field, optional leading search icon, optional clear control.
 - **States:** empty, typing, focused, disabled.
-- **Behavior:** Typing filters results immediately. Escape closes the palette when the input is empty and clears text when it is not empty.
+- **Behavior:** Typing filters results immediately. When the query is non-empty, first Escape clears the query and keeps the palette open. When the query is empty, Escape closes the palette and restores focus.
 - **Do:** Focus the input when the palette opens.
 - **Don't:** Move focus to results until the user navigates with arrow keys.
 
@@ -77,12 +77,14 @@ The palette appears centered on desktop and as a near-full-width sheet on narrow
 ## Interaction Rules
 
 - Open with the trigger or registered keyboard shortcut.
-- Close with Escape, outside click, or successful command execution.
+- Close with Escape when the query is empty, outside click, or successful command execution.
+- Clear the query and keep the palette open on first Escape when the query is non-empty.
 - Restore focus to the element that opened the palette.
 - Arrow Down and Arrow Up move between enabled results.
 - Home and End jump to first and last enabled results.
 - Enter executes the highlighted result.
 - Destructive results open a confirmation surface instead of executing immediately.
+- Destructive confirmation must name the action, offer cancel, keep focus recoverable, and wait for explicit confirmation before execution.
 
 ## State Model
 
@@ -97,10 +99,12 @@ The palette appears centered on desktop and as a near-full-width sheet on narrow
 
 ## Accessibility Contract
 
-- The palette has a dialog role in Web adapters.
+- The palette is a modal surface with a clear accessible name.
+- Focus stays within the palette or its confirmation surface while open.
+- Closing the palette restores focus to the element that opened it.
 - The search input has a clear accessible label.
-- The result list exposes active-descendant or equivalent focus semantics.
-- Escape closes the palette and restores focus.
+- The result list exposes the highlighted result through equivalent focus semantics.
+- Escape clears a non-empty query first; Escape closes and restores focus when the query is empty.
 - Loading and error states are announced.
 - Shortcut hints are supplementary and not the only way to understand commands.
 
@@ -126,12 +130,13 @@ Opening motion should be brief and should not delay input focus. Highlight movem
 
 ## Adapter Mapping Rules
 
-Web adapters may define dialog markup, combobox/listbox semantics, ARIA attributes, and focus restoration mechanics. They must not change command grouping, destructive confirmation, or state names.
+Adapters may define platform-specific semantics, focus mechanics, and implementation hooks. They must not change command grouping, destructive confirmation, or state names.
 
 ## Validation Checklist
 
 - [ ] Input receives focus on open.
-- [ ] Escape closes and restores focus.
+- [ ] Escape clears a non-empty query and keeps the palette open.
+- [ ] Escape closes and restores focus when the query is empty.
 - [ ] Arrow keys move highlighted result.
 - [ ] Enter executes only enabled commands.
 - [ ] Empty, loading, and error states are present.
