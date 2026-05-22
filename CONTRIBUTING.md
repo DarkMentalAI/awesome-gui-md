@@ -44,6 +44,15 @@ Each entry should explain:
 
 All changes must be opened as pull requests and reviewed before merging. Do not push directly to `main`.
 
+Before opening a PR, run and review:
+
+- `node scripts/validate.mjs`
+- `git status --short --branch --untracked-files=all`
+- Review untracked files so nothing accidental is included.
+- Check for generated, ignored, or local artifact files before staging: `git ls-files --ignored --exclude-standard --others`
+- Run a secret/sensitive material scan, or explicitly verify that no tokens, keys, credentials, or private data are included.
+- Confirm the PR diff contains only intended files.
+
 ## Pull Request Checklist
 
 - [ ] The contribution keeps `GUI.md` implementation-neutral.
