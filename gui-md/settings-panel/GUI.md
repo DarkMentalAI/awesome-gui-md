@@ -91,6 +91,8 @@ Desktop layouts may use side navigation with a content panel. Narrow screens use
 - Successful save clears dirty state.
 - Failed save preserves user changes and explains recovery.
 - Permission-limited fields remain visible with a reason.
+- Destructive actions require confirmation that names the affected object.
+- Failed validation moves focus to the first invalid field; save failures focus the error message or recovery action.
 - Leaving with unsaved changes requires confirmation or preserves draft state.
 
 ## State Model
@@ -136,12 +138,13 @@ Use immediate field-level feedback for validation. Save feedback may use subtle 
 
 ## Adapter Mapping Rules
 
-Web adapters may define form markup, fieldset/legend usage, error associations, and live regions. They must not change dirty-state behavior, permission visibility, or destructive confirmation rules.
+Adapters may define platform-specific grouping semantics, error association mechanics, status announcements, and implementation hooks. They must not change dirty-state behavior, permission visibility, or destructive confirmation rules.
 
 ## Validation Checklist
 
 - [ ] Every input has a label.
 - [ ] Dirty state is visible.
+- [ ] Leaving dirty settings prompts or preserves draft state.
 - [ ] Save is blocked for invalid changes.
 - [ ] Save failure preserves edits.
 - [ ] Disabled controls explain why.
