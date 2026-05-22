@@ -79,7 +79,7 @@ Desktop layout uses a full-width table with sticky header behavior when useful. 
 
 - **Purpose:** Performs actions on selected records.
 - **Anatomy:** selected count, actions, clear selection.
-- **States:** hidden, visible, partial permission, processing, error.
+- **States:** hidden, visible, mixed-permissions, processing, error.
 - **Behavior:** Appears only when one or more records are selected.
 - **Do:** Confirm destructive bulk actions.
 - **Don't:** Leave stale selection after filters remove records.
@@ -87,8 +87,15 @@ Desktop layout uses a full-width table with sticky header behavior when useful. 
 ## Interaction Rules
 
 - Filters update both metrics and table.
+- Filter input changes may debounce, but an applied query must update metrics, table, active filter count, and result count together.
+- In-flight filter results must show a loading state without replacing current results with stale data.
+- When multiple filter updates overlap, only the latest applied query may update dashboard results.
 - Clear filters returns dashboard to default query.
 - Selection persists only across compatible filter changes.
+- Selection across pages is valid only for records that remain in the current query scope and permission set.
+- Page changes load the next record set without clearing compatible selection.
+- After deletion leaves the current page empty, move to the nearest available page or show the empty state if no records remain.
+- After a page change, focus moves to the table region or the first newly loaded row.
 - Destructive bulk actions require confirmation.
 - Loading must preserve enough structure to prevent layout jumps.
 - Recoverable errors include retry.
@@ -102,6 +109,8 @@ Desktop layout uses a full-width table with sticky header behavior when useful. 
 - **No results:** Filters produce zero matches and clear filters is offered.
 - **Error:** Data cannot load and retry is available.
 - **Selected:** Bulk action bar is visible.
+- **Permission-limited:** Some visible records or actions are unavailable to the current user.
+- **Mixed-permissions:** Selected records do not all allow the same bulk actions.
 - **Processing:** Bulk action is in progress and repeated submission is blocked.
 
 ## Accessibility Contract
@@ -144,5 +153,8 @@ Web adapters may define table markup, live regions, responsive collapse, and for
 - [ ] Clear filters is available when filters are active.
 - [ ] Loading, empty, no-results, and error states are present.
 - [ ] Bulk actions require explicit selection.
+- [ ] Result counts update with applied filters.
+- [ ] Overlapped filter updates cannot replace newer results.
+- [ ] Pagination, deletion, focus, and mixed-permission cases are handled.
 - [ ] Destructive bulk actions require confirmation.
 - [ ] Sort and selection are keyboard accessible.
