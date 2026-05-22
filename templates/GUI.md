@@ -9,8 +9,7 @@ audience:
   - frontend-engineers
 target_surfaces:
   - web
-source_refs:
-  - DESIGN.md
+source_refs: []
 adapters:
   - HTML.md
 accessibility:

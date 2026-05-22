@@ -18,14 +18,15 @@ audience:
   - frontend-engineers
 target_surfaces:
   - web
-source_refs:
-  - DESIGN.md
+source_refs: []
 adapters:
   - HTML.md
 accessibility:
   baseline: WCAG 2.2 AA
 ---
 ```
+
+Use `source_refs: []` for self-created abstract patterns. List product captures, public docs, or local design files only when the entry depends on them. `status` is file-level frontmatter; `entry_status` belongs in `meta.json`.
 
 ## Required Sections
 
