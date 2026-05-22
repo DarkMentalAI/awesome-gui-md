@@ -88,7 +88,8 @@ Use a small controlled vocabulary:
 - `interaction` - pointer, keyboard, touch, voice, drag-drop, command, realtime, or async.
 - `state-scope` - loading, empty, error, success, disabled, selected, dirty, permission-limited, destructive, or recovery.
 - `accessibility` - wcag-aa, keyboard-first, screen-reader, reduced-motion, high-contrast, localization, or cognitive-support.
-- `maturity` - draft, reviewed, stable, deprecated.
+
+Entry metadata also includes `entry_status` for draft, reviewed, stable, or deprecated; it is not a discovery tag.
 
 Tag rules:
 

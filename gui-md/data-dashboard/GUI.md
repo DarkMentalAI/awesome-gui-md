@@ -9,6 +9,7 @@ audience:
   - frontend-engineers
 target_surfaces:
   - web
+source_refs: []
 adapters:
   - HTML.md
 accessibility:
@@ -20,6 +21,8 @@ accessibility:
 ## Purpose and Scope
 
 The data dashboard helps users monitor key metrics, filter records, inspect tabular data, and take batch actions. It prioritizes scanability, state clarity, and safe operations.
+
+This seed entry is a self-created abstract pattern and does not depend on external product captures.
 
 Out of scope: chart rendering libraries, backend query design, and export file formats.
 

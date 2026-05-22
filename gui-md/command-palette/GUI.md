@@ -9,6 +9,7 @@ audience:
   - frontend-engineers
 target_surfaces:
   - web
+source_refs: []
 adapters:
   - HTML.md
 accessibility:
@@ -20,6 +21,8 @@ accessibility:
 ## Purpose and Scope
 
 The command palette lets users search, discover, and execute commands from anywhere in the application. It prioritizes keyboard speed while preserving visible structure for users who browse commands.
+
+This seed entry is a self-created abstract pattern and does not depend on external product captures.
 
 Out of scope: global application routing, command permission backends, and command execution implementation.
 
