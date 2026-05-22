@@ -9,6 +9,7 @@ audience:
   - frontend-engineers
 target_surfaces:
   - web
+source_refs: []
 adapters:
   - HTML.md
 accessibility:
@@ -20,6 +21,8 @@ accessibility:
 ## Purpose and Scope
 
 The settings panel lets users review and update persistent configuration. It prioritizes clarity, save confidence, validation, permission transparency, and safe destructive actions.
+
+This seed entry is a self-created abstract pattern and does not depend on external product captures.
 
 Out of scope: authentication, billing provider integration, and backend permission models.
 
