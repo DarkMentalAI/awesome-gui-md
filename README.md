@@ -59,6 +59,7 @@ Each entry contains:
 - [Boundaries](docs/boundaries.md) - `DESIGN.md`, `GUI.md`, and `HTML.md` responsibilities.
 - [Authoring Guide](docs/authoring-guide.md) - How to write a useful `GUI.md`.
 - [Evaluation](docs/evaluation.md) - Checklist-based review rubric.
+- [Collection Index](docs/index.md) - Compact index of collection entries.
 - [Collection Taxonomy](docs/collection-taxonomy.md) - Categories and tag strategy.
 - [Roadmap](docs/roadmap.md) - Planned path from v0.1 to later tooling.
 
