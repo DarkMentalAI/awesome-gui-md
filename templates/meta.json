@@ -1,0 +1,15 @@
+{
+  "title": "Example Entry Title",
+  "slug": "example-entry-title",
+  "category": "Data Interfaces",
+  "tags": ["dashboard", "filters"],
+  "platform": ["web"],
+  "files": ["README.md", "GUI.md", "HTML.md"],
+  "status_coverage": ["loading", "empty", "error"],
+  "accessibility_notes": [
+    "Primary actions should be keyboard reachable.",
+    "Loading, empty, and error states should be announced without relying on color alone."
+  ],
+  "entry_status": "draft",
+  "last_reviewed": "2026-05-22"
+}
