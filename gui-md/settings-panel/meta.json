@@ -4,10 +4,10 @@
   "category": "Forms and Settings",
   "tags": [
     "settings",
-    "forms",
+    "form",
     "validation",
     "permissions",
-    "destructive-actions"
+    "destructive-action"
   ],
   "platform": [
     "web"
