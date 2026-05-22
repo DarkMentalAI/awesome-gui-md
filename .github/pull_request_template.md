@@ -4,6 +4,7 @@ Describe the GUI.md change and the problem it solves.
 
 ## GUI.md quality checklist
 
+- [ ] This change will be merged only after PR review, with no direct push to `main`.
 - [ ] This is not only a screenshot or visual gallery entry.
 - [ ] Structure is documented: layout, hierarchy, regions, navigation, and content model.
 - [ ] States are documented: default, loading, empty, error, focused, selected, disabled, or other relevant states.

@@ -39,6 +39,10 @@ Each entry should explain:
 - reuse guidance
 - caveats
 
+## Change Workflow
+
+All changes must be opened as pull requests and reviewed before merging. Do not push directly to `main`.
+
 ## Pull Request Checklist
 
 - [ ] The contribution keeps `GUI.md` implementation-neutral.
