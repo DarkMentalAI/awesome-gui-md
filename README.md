@@ -81,4 +81,4 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md). Contributions must document structure, 
 
 ## License
 
-MIT License recommended for the repository. Individual product names and interface references remain the property of their owners.
+MIT License - see [LICENSE](LICENSE). Individual product names and interface references remain the property of their owners.
