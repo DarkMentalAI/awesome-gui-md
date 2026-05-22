@@ -41,6 +41,13 @@ const requiredMetaFields = [
 ];
 const requiredMetaFiles = ['README.md', 'GUI.md', 'HTML.md'];
 const entryStatuses = new Set(['draft', 'reviewed', 'stable', 'deprecated']);
+const forbiddenTagAliases = new Map([
+  ['forms', 'form'],
+  ['destructive-actions', 'destructive-action'],
+  ['modal', 'dialog'],
+  ['commands', 'command'],
+]);
+const tagPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const issues = [];
 
@@ -50,6 +57,10 @@ function toPosixPath(filePath) {
 
 function addIssue(filePath, message) {
   issues.push(`${toPosixPath(filePath)}: ${message}`);
+}
+
+function formatValue(value) {
+  return JSON.stringify(value);
 }
 
 async function readText(filePath) {
@@ -182,6 +193,30 @@ function validateFields(filePath, data, requiredFields) {
   }
 }
 
+function validateTags(filePath, tags) {
+  if (!Array.isArray(tags)) {
+    addIssue(filePath, 'tags must be an array');
+    return;
+  }
+
+  for (const tag of tags) {
+    if (typeof tag !== 'string' || tag.trim() === '') {
+      addIssue(filePath, 'tags must contain non-empty strings');
+      continue;
+    }
+
+    if (!tagPattern.test(tag)) {
+      addIssue(filePath, `tag ${formatValue(tag)} must be lowercase hyphenated`);
+      continue;
+    }
+
+    const canonicalTag = forbiddenTagAliases.get(tag);
+    if (canonicalTag) {
+      addIssue(filePath, `tag ${formatValue(tag)} should be ${canonicalTag}`);
+    }
+  }
+}
+
 function extractH2Sections(markdown) {
   return markdown
     .split('\n')
@@ -268,6 +303,10 @@ function validateMeta(filePath, text, categories) {
     !entryStatuses.has(data.entry_status)
   ) {
     addIssue(filePath, 'entry_status must be draft, reviewed, stable, or deprecated');
+  }
+
+  if (Object.prototype.hasOwnProperty.call(data, 'tags')) {
+    validateTags(filePath, data.tags);
   }
 
   if (Object.prototype.hasOwnProperty.call(data, 'files')) {
