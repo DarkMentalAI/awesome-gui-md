@@ -2,6 +2,10 @@
 
 Describe the GUI.md change and the problem it solves.
 
+## Repository hygiene
+
+- [ ] `CONTRIBUTING.md` hygiene checks were completed.
+
 ## GUI.md quality checklist
 
 - [ ] This change will be merged only after PR review, with no direct push to `main`.
