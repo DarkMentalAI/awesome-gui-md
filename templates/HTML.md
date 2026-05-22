@@ -5,7 +5,6 @@ version: 0.1.0
 status: draft
 depends_on:
   gui: ./GUI.md
-  design: ./DESIGN.md
 target: web
 ---
 
