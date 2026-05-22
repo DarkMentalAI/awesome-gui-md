@@ -61,6 +61,7 @@ Each entry contains:
 - [Evaluation](docs/evaluation.md) - Checklist-based review rubric.
 - [Collection Index](docs/index.md) - Compact index of collection entries.
 - [Collection Taxonomy](docs/collection-taxonomy.md) - Categories and tag strategy.
+- [Schema Reference](docs/schema.md) - `GUI.md`, `HTML.md`, and `meta.json` v1 required fields and sections.
 - [Roadmap](docs/roadmap.md) - Planned path from v0.1 to later tooling.
 
 ## Quality Bar
