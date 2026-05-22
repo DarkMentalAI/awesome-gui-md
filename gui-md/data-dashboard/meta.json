@@ -25,6 +25,8 @@
     "no-results",
     "error",
     "selected",
+    "permission-limited",
+    "mixed-permissions",
     "processing"
   ],
   "accessibility_notes": [

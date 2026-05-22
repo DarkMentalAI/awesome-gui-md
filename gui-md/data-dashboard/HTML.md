@@ -37,6 +37,7 @@ This file maps the data dashboard GUI contract to Web semantics.
 - Tab order follows header, filters, table controls, rows, pagination.
 - Row actions are reachable without pointer hover.
 - Bulk action bar is reachable after selection.
+- After pagination or continuation loads, place focus on the table region or first newly loaded row.
 - Retry returns focus to the table region when data loads.
 
 ## CSS Token Mapping
@@ -51,6 +52,8 @@ This file maps the data dashboard GUI contract to Web semantics.
 ## Responsive Rules
 
 - Preserve highest-priority columns on narrow screens.
+- Determine priority from declared column importance first, then task-critical identity, status, and action fields.
+- Do not infer priority from visual width alone.
 - Convert low-priority columns to expandable row details.
 - Keep filters above records.
 - Keep bulk actions close to selected records.
@@ -58,9 +61,10 @@ This file maps the data dashboard GUI contract to Web semantics.
 ## DOM and State Hooks
 
 - `data-gui="data-dashboard"`
-- `data-state="loading|ready|filtered|empty|no-results|error|selected|processing"`
+- `data-state="initial-loading|ready|filtered|empty|no-results|error|selected|permission-limited|mixed-permissions|processing"`
 - `data-filter-active="true|false"`
 - `data-selected-count`
+- `data-result-count`
 - `data-sort-key`
 - `data-sort-direction`
 
