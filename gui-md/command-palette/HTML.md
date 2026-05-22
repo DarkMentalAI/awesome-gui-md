@@ -21,15 +21,16 @@ This file maps the command palette GUI contract to Web semantics.
 | Palette trigger | `<button type="button">` | Include visible text or `aria-label` |
 | Palette surface | `<dialog>` or `role="dialog"` container | Modal behavior must restore focus |
 | Search input | `<input type="search">` | Provide an accessible label |
-| Result list | `role="listbox"` or semantic list with active descendant | Keep keyboard behavior consistent |
-| Result item | `role="option"` or `<button>` inside list item | Disabled items must expose disabled state |
+| Result list | `role="listbox"` with `aria-activedescendant`, or semantic list containing buttons | Use listbox when focus stays on search; use button/list when focus moves among commands |
+| Result item | `role="option"` or `<button>` inside list item | Match the chosen list pattern; disabled items must expose disabled state |
 | Status message | `aria-live="polite"` region | Announce loading, empty, and error states |
 
 ## ARIA and Labels
 
 - The dialog is labelled by a visible title or `aria-label="Command palette"`.
 - The search input uses `aria-label="Search commands"`.
-- The highlighted result is exposed through `aria-activedescendant` or roving focus.
+- Use `aria-activedescendant` with `role="listbox"` when the search input retains DOM focus.
+- Use semantic list items with command buttons when focus roves to each result.
 - Loading and error messages use a polite live region.
 
 ## Focus and Keyboard
@@ -37,8 +38,10 @@ This file maps the command palette GUI contract to Web semantics.
 - Save the opener before showing the palette.
 - Focus the search input after opening.
 - Restore focus to the opener after close.
-- Escape clears non-empty query before closing the palette.
-- Arrow keys navigate results without moving focus out of the palette.
+- Escape clears a non-empty query and keeps the palette open.
+- Escape closes the palette and restores focus when the query is empty.
+- Arrow keys navigate results by updating active descendant or by moving focus among command buttons, depending on the chosen pattern.
+- Destructive confirmation names the action, provides cancel, keeps focus recoverable, and executes only after confirmation.
 
 ## CSS Token Mapping
 
@@ -68,6 +71,7 @@ This file maps the command palette GUI contract to Web semantics.
 - [ ] Trigger is a real button.
 - [ ] Search input has an accessible label.
 - [ ] Highlighted result is exposed programmatically.
-- [ ] Escape restores focus.
+- [ ] Escape clears a non-empty query and keeps the palette open.
+- [ ] Escape restores focus when closing from an empty query.
 - [ ] Loading, empty, and error states are announced.
-- [ ] Destructive command has confirmation before execution.
+- [ ] Destructive confirmation names the action and offers cancel before execution.
