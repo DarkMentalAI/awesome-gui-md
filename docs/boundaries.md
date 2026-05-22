@@ -14,6 +14,8 @@ identity       semantics      mapping
 
 `DESIGN.md` is the visual identity source. It defines atmosphere, color, typography, spacing, shape, imagery, visual components, and visual guardrails.
 
+In this collection, `DESIGN.md` is optional and external to the entry format. Use it alongside `GUI.md` only when visual identity matters.
+
 `DESIGN.md` should not define application flow, state machines, accessibility behavior, DOM structure, or framework APIs.
 
 ## GUI.md

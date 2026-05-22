@@ -78,6 +78,10 @@ Required fields:
 `status` is file-level frontmatter for `GUI.md` or `HTML.md`. `entry_status`
 is entry-level metadata in `meta.json`.
 
+Collection entries are not required to include `DESIGN.md`. The v1 entry
+format remains `GUI.md`, `HTML.md`, `README.md`, and `meta.json`; any
+`DESIGN.md` is an optional external visual identity source.
+
 ## Validation Scope
 
 v1 validation is intentionally lightweight. It checks:

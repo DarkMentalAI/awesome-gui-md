@@ -12,6 +12,8 @@ AI agents can generate UI code quickly, but they often miss the interface contra
 
 ## DESIGN.md vs GUI.md vs HTML.md
 
+`DESIGN.md` is an external, optional visual identity source. Collection entries are not required to include it; pair it with `GUI.md` when visual identity matters.
+
 | File | Core question | Owns | Does not own |
 |---|---|---|---|
 | `DESIGN.md` | What should it look and feel like? | Visual identity, color, type, spacing, atmosphere, visual do/don't rules | Workflow, state model, DOM details |
@@ -35,7 +37,7 @@ AI agents can generate UI code quickly, but they often miss the interface contra
 ## How To Use
 
 1. Copy a relevant `GUI.md` into your project.
-2. Pair it with your existing `DESIGN.md` when visual identity matters.
+2. Pair it with a project-level `DESIGN.md` when visual identity matters.
 3. Use `HTML.md` only when building a Web implementation.
 4. Ask your AI agent to follow `GUI.md` before generating UI code.
 
