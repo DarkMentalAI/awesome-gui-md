@@ -11,7 +11,7 @@ Required frontmatter fields:
 - `version`: file version for this contract document.
 - `status`: file-level status for this `GUI.md`.
 - `audience`: intended readers or consumers.
-- `target_surfaces`: supported product surfaces or platforms.
+- `target_surfaces`: GUI-level target labels, currently `web`; do not use this for component surfaces such as page, panel, dialog, or table.
 - `source_refs`: source captures, references, or an empty list.
 - `adapters`: adapter documents derived from this contract.
 - `accessibility.baseline`: accessibility baseline, currently WCAG 2.2 AA.
@@ -43,7 +43,7 @@ Required frontmatter fields:
 - `version`: file version for this adapter document.
 - `status`: file-level status for this `HTML.md`.
 - `depends_on.gui`: path to the source `GUI.md` contract.
-- `target`: adapter target, currently `web`.
+- `target`: adapter target for this `HTML.md`, currently `web`.
 
 Required sections:
 
@@ -68,7 +68,7 @@ Required fields:
 - `slug`: stable lowercase entry identifier.
 - `category`: one primary taxonomy category.
 - `tags`: controlled discovery tags.
-- `platform`: supported platforms.
+- `platform`: entry-level supported platforms.
 - `files`: files included in the entry.
 - `status_coverage`: interface states covered by the entry.
 - `accessibility_notes`: accessibility notes for the entry.
@@ -83,8 +83,10 @@ is entry-level metadata in `meta.json`.
 v1 validation is intentionally lightweight. It checks:
 
 - required fields and required sections are present;
-- `GUI.md`, `DESIGN.md`, `HTML.md`, and metadata boundaries are respected;
-- controlled vocabularies are used where the collection defines them.
+- adapter frontmatter constraints and metadata required fields are checked;
+- `meta.json.category` uses a primary taxonomy category;
+- `meta.json.entry_status` is recognized.
 
-v1 validation does not judge prose quality, visual design, implementation code,
-screenshots, or generated UI output.
+v1 validation does not validate every controlled vocabulary or judge prose
+quality, visual design, implementation code, screenshots, or generated UI
+output.
