@@ -69,6 +69,7 @@ Each entry contains:
 - [Collection Taxonomy](docs/collection-taxonomy.md) - Categories and tag strategy.
 - [Schema Reference](docs/schema.md) - `GUI.md`, `HTML.md`, and `meta.json` v1 required fields and sections.
 - [Roadmap](docs/roadmap.md) - Planned path from v0.1 to later tooling.
+- [V1 Readiness](docs/v1-readiness.md) - Current 1.0 release evidence and remaining gates.
 
 ## Quality Bar
 
