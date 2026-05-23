@@ -1,0 +1,38 @@
+{
+  "title": "Undo Toast",
+  "slug": "undo-toast",
+  "category": "Feedback and States",
+  "tags": [
+    "toast",
+    "undo",
+    "recovery",
+    "error-state"
+  ],
+  "platform": [
+    "web"
+  ],
+  "files": [
+    "README.md",
+    "GUI.md",
+    "HTML.md"
+  ],
+  "status_coverage": [
+    "queued",
+    "visible",
+    "success",
+    "error",
+    "undo-available",
+    "undoing",
+    "undone",
+    "expired",
+    "dismissed"
+  ],
+  "accessibility_notes": [
+    "Undo and dismiss actions must be keyboard reachable.",
+    "Status changes should be announced without stealing focus.",
+    "Undo availability and expiry must not rely on color alone.",
+    "Focus should remain stable unless recovery requires user attention."
+  ],
+  "entry_status": "draft",
+  "last_reviewed": "2026-05-23"
+}
