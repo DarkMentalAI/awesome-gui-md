@@ -34,6 +34,10 @@ AI agents can generate UI code quickly, but they often miss the interface contra
 
 - [Settings Panel](gui-md/settings-panel/) - Configuration surface with validation, dirty state, permission-limited fields, and destructive actions.
 
+### Feedback and States
+
+- [Undo Toast](gui-md/undo-toast/) - Transient feedback for reversible actions, timeout windows, and recovery status.
+
 ## How To Use
 
 1. Copy a relevant `GUI.md` into your project.
