@@ -32,6 +32,16 @@ An entry is ready when:
 - `Adapter Boundary` scores `2`
 - `Accessibility` scores at least `1`
 
+## Review Outcomes
+
+Use the same decision language on every entry review.
+
+- `pass` - The entry meets the pass criteria, validator checks pass, and no blocking boundary or accessibility issue remains.
+- `revise` - The entry has no fatal mismatch but does not meet the pass criteria, or a required checklist item is incomplete.
+- `reject` - The entry is outside the collection scope, depends on private or unsafe material, duplicates an existing entry without a new interaction lesson, or puts implementation details in `GUI.md` as the main contract.
+
+Taxonomy and adapter changes use the same labels: `pass` when the change is consistent and scoped, `revise` when it needs clearer naming or affected-file updates, and `reject` when it makes categories, tags, or adapter boundaries less useful.
+
 ## Review Checklist
 
 - [ ] The interface problem is explicit.
