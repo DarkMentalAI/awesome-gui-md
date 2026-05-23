@@ -238,6 +238,26 @@ function parseCoverageCell(value) {
     .map((item) => item.trim());
 }
 
+function parseFileLinksCell(value, slug, filePath) {
+  const files = [];
+
+  for (const item of value.split(',').map((part) => part.trim())) {
+    const match = item.match(/^\[[^\]]+\]\(\.\.\/gui-md\/([^/)]+)\/([^)]+)\)$/);
+    if (!match) {
+      addIssue(filePath, `files cell for ${slug} must contain only entry file links`);
+      continue;
+    }
+
+    if (match[1] !== slug) {
+      addIssue(filePath, `files link for ${slug} must stay in ../gui-md/${slug}/`);
+    }
+
+    files.push(match[2]);
+  }
+
+  return files;
+}
+
 function parseCollectionIndex(markdown, filePath) {
   const rows = markdown.split('\n').filter((line) => line.trim().startsWith('|'));
   const headerRowIndex = rows.findIndex((line) => {
@@ -252,8 +272,18 @@ function parseCollectionIndex(markdown, filePath) {
 
   const headers = parseTableCells(rows[headerRowIndex]);
   const entryIndex = headers.indexOf('Entry');
-  const coverageIndex = headers.indexOf('Coverage');
-  const coverageBySlug = new Map();
+  const requiredHeaders = ['Category', 'Status', 'Platform', 'Coverage', 'Files'];
+  const missingHeaders = requiredHeaders.filter((header) => !headers.includes(header));
+  if (missingHeaders.length > 0) {
+    addIssue(filePath, `index table must include ${missingHeaders.join(', ')} columns`);
+    return new Map();
+  }
+
+  const rowsBySlug = new Map();
+  const lastRequiredIndex = Math.max(
+    entryIndex,
+    ...requiredHeaders.map((header) => headers.indexOf(header)),
+  );
 
   for (const row of rows.slice(headerRowIndex + 1)) {
     const cells = parseTableCells(row);
@@ -262,8 +292,8 @@ function parseCollectionIndex(markdown, filePath) {
       continue;
     }
 
-    if (cells.length <= Math.max(entryIndex, coverageIndex)) {
-      addIssue(filePath, 'index table row must include Entry and Coverage cells');
+    if (cells.length <= lastRequiredIndex) {
+      addIssue(filePath, 'index table row must include all required cells');
       continue;
     }
 
@@ -273,15 +303,21 @@ function parseCollectionIndex(markdown, filePath) {
     }
 
     const slug = entryMatch[1];
-    if (coverageBySlug.has(slug)) {
+    if (rowsBySlug.has(slug)) {
       addIssue(filePath, `index row for ${slug} must be unique`);
       continue;
     }
 
-    coverageBySlug.set(slug, parseCoverageCell(cells[coverageIndex]));
+    rowsBySlug.set(slug, {
+      category: cells[headers.indexOf('Category')],
+      status: cells[headers.indexOf('Status')],
+      platform: parseCoverageCell(cells[headers.indexOf('Platform')]),
+      coverage: parseCoverageCell(cells[headers.indexOf('Coverage')]),
+      files: parseFileLinksCell(cells[headers.indexOf('Files')], slug, filePath),
+    });
   }
 
-  return coverageBySlug;
+  return rowsBySlug;
 }
 
 function isValidIsoDate(value) {
@@ -351,7 +387,7 @@ function validateHtml(filePath, markdown, requiredSections) {
   validateSections(filePath, parsed.body, requiredSections);
 }
 
-function validateMeta(filePath, text, categories, entryDir, seenSlugs, indexCoverageBySlug) {
+async function validateMeta(filePath, text, categories, entryDir, seenSlugs, indexRowsBySlug) {
   let data;
 
   try {
@@ -421,6 +457,36 @@ function validateMeta(filePath, text, categories, entryDir, seenSlugs, indexCove
       return;
     }
 
+    const seenFiles = new Set();
+    for (const listedFile of data.files) {
+      if (typeof listedFile !== 'string' || listedFile.trim() === '') {
+        addIssue(filePath, 'files must contain non-empty strings');
+        continue;
+      }
+
+      if (
+        path.posix.isAbsolute(listedFile) ||
+        path.win32.isAbsolute(listedFile) ||
+        listedFile.split(/[\\/]+/).includes('..')
+      ) {
+        addIssue(
+          filePath,
+          `files entry ${formatValue(listedFile)} must stay inside the entry directory`,
+        );
+        continue;
+      }
+
+      if (seenFiles.has(listedFile)) {
+        addIssue(filePath, `files entry ${formatValue(listedFile)} must be unique`);
+      } else {
+        seenFiles.add(listedFile);
+      }
+
+      if (!(await fileExists(path.join(entryDir, listedFile)))) {
+        addIssue(filePath, `files entry ${formatValue(listedFile)} must exist`);
+      }
+    }
+
     for (const requiredFile of requiredMetaFiles) {
       if (!data.files.includes(requiredFile)) {
         addIssue(filePath, `files must include ${requiredFile}`);
@@ -435,17 +501,45 @@ function validateMeta(filePath, text, categories, entryDir, seenSlugs, indexCove
     }
 
     const slug = typeof data.slug === 'string' ? data.slug : path.basename(entryDir);
-    const indexCoverage = indexCoverageBySlug.get(slug);
-    if (!indexCoverage) {
+    const indexRow = indexRowsBySlug.get(slug);
+    if (!indexRow) {
       addIssue(indexPath, `missing index row for ${slug}`);
       return;
     }
 
-    if (JSON.stringify(indexCoverage) !== JSON.stringify(data.status_coverage)) {
+    if (
+      Object.prototype.hasOwnProperty.call(data, 'category') &&
+      indexRow.category !== data.category
+    ) {
+      addIssue(indexPath, `category for ${slug} must match ${toPosixPath(filePath)} category`);
+    }
+
+    if (
+      Object.prototype.hasOwnProperty.call(data, 'entry_status') &&
+      indexRow.status !== data.entry_status
+    ) {
+      addIssue(indexPath, `status for ${slug} must match ${toPosixPath(filePath)} entry_status`);
+    }
+
+    if (
+      Object.prototype.hasOwnProperty.call(data, 'platform') &&
+      JSON.stringify(indexRow.platform) !== JSON.stringify(data.platform)
+    ) {
+      addIssue(indexPath, `platform for ${slug} must match ${toPosixPath(filePath)} platform`);
+    }
+
+    if (JSON.stringify(indexRow.coverage) !== JSON.stringify(data.status_coverage)) {
       addIssue(
         indexPath,
         `coverage for ${slug} must match ${toPosixPath(filePath)} status_coverage`,
       );
+    }
+
+    if (
+      Object.prototype.hasOwnProperty.call(data, 'files') &&
+      JSON.stringify(indexRow.files) !== JSON.stringify(data.files)
+    ) {
+      addIssue(indexPath, `files for ${slug} must match ${toPosixPath(filePath)} files`);
     }
   }
 }
@@ -500,7 +594,7 @@ async function validateEntry(
   htmlSections,
   categories,
   seenSlugs,
-  indexCoverageBySlug,
+  indexRowsBySlug,
 ) {
   for (const fileName of requiredEntryFiles) {
     const filePath = path.join(entryDir, fileName);
@@ -521,13 +615,13 @@ async function validateEntry(
 
   const metaPath = path.join(entryDir, 'meta.json');
   if (await fileExists(metaPath)) {
-    validateMeta(
+    await validateMeta(
       metaPath,
       await readText(metaPath),
       categories,
       entryDir,
       seenSlugs,
-      indexCoverageBySlug,
+      indexRowsBySlug,
     );
   }
 }
@@ -540,7 +634,7 @@ async function main() {
   const guiSections = extractH2Sections(await readText(guiTemplatePath));
   const htmlSections = extractH2Sections(await readText(htmlTemplatePath));
   const categories = extractTaxonomyCategories(await readText(taxonomyPath));
-  const indexCoverageBySlug = parseCollectionIndex(await readText(indexPath), indexPath);
+  const indexRowsBySlug = parseCollectionIndex(await readText(indexPath), indexPath);
   const entryDirs = await listEntryDirs();
   const seenSlugs = new Map();
 
@@ -551,7 +645,7 @@ async function main() {
       htmlSections,
       categories,
       seenSlugs,
-      indexCoverageBySlug,
+      indexRowsBySlug,
     );
   }
 
