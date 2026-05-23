@@ -6,6 +6,7 @@ import process from 'node:process';
 
 const rootDir = process.cwd();
 const entryRoot = path.join(rootDir, 'gui-md');
+const indexPath = path.join(rootDir, 'docs', 'index.md');
 
 const requiredEntryFiles = ['GUI.md', 'HTML.md', 'README.md', 'meta.json'];
 const requiredGuiFields = [
@@ -218,6 +219,71 @@ function validateTags(filePath, tags) {
   }
 }
 
+function parseTableCells(line) {
+  return line
+    .trim()
+    .replace(/^\|/, '')
+    .replace(/\|$/, '')
+    .split('|')
+    .map((cell) => cell.trim());
+}
+
+function isTableSeparator(cells) {
+  return cells.every((cell) => /^:?-{3,}:?$/.test(cell));
+}
+
+function parseCoverageCell(value) {
+  return value
+    .split(',')
+    .map((item) => item.trim());
+}
+
+function parseCollectionIndex(markdown, filePath) {
+  const rows = markdown.split('\n').filter((line) => line.trim().startsWith('|'));
+  const headerRowIndex = rows.findIndex((line) => {
+    const cells = parseTableCells(line);
+    return cells.includes('Entry') && cells.includes('Coverage');
+  });
+
+  if (headerRowIndex === -1) {
+    addIssue(filePath, 'index table must include Entry and Coverage columns');
+    return new Map();
+  }
+
+  const headers = parseTableCells(rows[headerRowIndex]);
+  const entryIndex = headers.indexOf('Entry');
+  const coverageIndex = headers.indexOf('Coverage');
+  const coverageBySlug = new Map();
+
+  for (const row of rows.slice(headerRowIndex + 1)) {
+    const cells = parseTableCells(row);
+
+    if (isTableSeparator(cells)) {
+      continue;
+    }
+
+    if (cells.length <= Math.max(entryIndex, coverageIndex)) {
+      addIssue(filePath, 'index table row must include Entry and Coverage cells');
+      continue;
+    }
+
+    const entryMatch = cells[entryIndex].match(/\]\(\.\.\/gui-md\/([^/)]+)\/?\)/);
+    if (!entryMatch) {
+      continue;
+    }
+
+    const slug = entryMatch[1];
+    if (coverageBySlug.has(slug)) {
+      addIssue(filePath, `index row for ${slug} must be unique`);
+      continue;
+    }
+
+    coverageBySlug.set(slug, parseCoverageCell(cells[coverageIndex]));
+  }
+
+  return coverageBySlug;
+}
+
 function isValidIsoDate(value) {
   if (typeof value !== 'string' || !isoDatePattern.test(value)) {
     return false;
@@ -285,7 +351,7 @@ function validateHtml(filePath, markdown, requiredSections) {
   validateSections(filePath, parsed.body, requiredSections);
 }
 
-function validateMeta(filePath, text, categories, entryDir, seenSlugs) {
+function validateMeta(filePath, text, categories, entryDir, seenSlugs, indexCoverageBySlug) {
   let data;
 
   try {
@@ -361,6 +427,27 @@ function validateMeta(filePath, text, categories, entryDir, seenSlugs) {
       }
     }
   }
+
+  if (Object.prototype.hasOwnProperty.call(data, 'status_coverage')) {
+    if (!Array.isArray(data.status_coverage)) {
+      addIssue(filePath, 'status_coverage must be an array');
+      return;
+    }
+
+    const slug = typeof data.slug === 'string' ? data.slug : path.basename(entryDir);
+    const indexCoverage = indexCoverageBySlug.get(slug);
+    if (!indexCoverage) {
+      addIssue(indexPath, `missing index row for ${slug}`);
+      return;
+    }
+
+    if (JSON.stringify(indexCoverage) !== JSON.stringify(data.status_coverage)) {
+      addIssue(
+        indexPath,
+        `coverage for ${slug} must match ${toPosixPath(filePath)} status_coverage`,
+      );
+    }
+  }
 }
 
 function extractTaxonomyCategories(markdown) {
@@ -407,7 +494,14 @@ async function listEntryDirs() {
     .sort((left, right) => left.localeCompare(right));
 }
 
-async function validateEntry(entryDir, guiSections, htmlSections, categories, seenSlugs) {
+async function validateEntry(
+  entryDir,
+  guiSections,
+  htmlSections,
+  categories,
+  seenSlugs,
+  indexCoverageBySlug,
+) {
   for (const fileName of requiredEntryFiles) {
     const filePath = path.join(entryDir, fileName);
     if (!(await fileExists(filePath))) {
@@ -427,7 +521,14 @@ async function validateEntry(entryDir, guiSections, htmlSections, categories, se
 
   const metaPath = path.join(entryDir, 'meta.json');
   if (await fileExists(metaPath)) {
-    validateMeta(metaPath, await readText(metaPath), categories, entryDir, seenSlugs);
+    validateMeta(
+      metaPath,
+      await readText(metaPath),
+      categories,
+      entryDir,
+      seenSlugs,
+      indexCoverageBySlug,
+    );
   }
 }
 
@@ -439,11 +540,19 @@ async function main() {
   const guiSections = extractH2Sections(await readText(guiTemplatePath));
   const htmlSections = extractH2Sections(await readText(htmlTemplatePath));
   const categories = extractTaxonomyCategories(await readText(taxonomyPath));
+  const indexCoverageBySlug = parseCollectionIndex(await readText(indexPath), indexPath);
   const entryDirs = await listEntryDirs();
   const seenSlugs = new Map();
 
   for (const entryDir of entryDirs) {
-    await validateEntry(entryDir, guiSections, htmlSections, categories, seenSlugs);
+    await validateEntry(
+      entryDir,
+      guiSections,
+      htmlSections,
+      categories,
+      seenSlugs,
+      indexCoverageBySlug,
+    );
   }
 
   if (issues.length > 0) {
