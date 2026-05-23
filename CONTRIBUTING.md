@@ -53,6 +53,36 @@ Before opening a PR, run and review:
 - Run a secret/sensitive material scan, or explicitly verify that no tokens, keys, credentials, or private data are included.
 - Confirm the PR diff contains only intended files.
 
+## Review Paths
+
+Use the smallest review path that fits the change.
+
+### Entry Review
+
+Use for new entries or changes to entry `GUI.md`, `HTML.md`, `README.md`, or `meta.json`.
+
+- Check `GUI.md` against the rubric in `docs/evaluation.md`.
+- Confirm `HTML.md` maps Web semantics without changing product behavior.
+- Confirm `meta.json.status_coverage` matches `docs/index.md`.
+- Confirm good-fit and bad-fit reuse notes are specific.
+
+### Taxonomy Review
+
+Use for category or tag changes.
+
+- Confirm the category describes an interface problem, not a visual style.
+- Prefer existing lowercase hyphenated tags before adding new tags.
+- Add a new tag only when at least two entries are likely to use it.
+- Update affected entry metadata and index rows in the same PR.
+
+### Adapter Review
+
+Use for changes to adapter documents or adapter rules.
+
+- Confirm adapter files do not introduce product workflow decisions.
+- Keep Web-specific markup, ARIA, focus, CSS, and DOM hooks out of `GUI.md`.
+- Confirm adapter validation checklist items trace back to `GUI.md`.
+
 ## Pull Request Checklist
 
 - [ ] The contribution keeps `GUI.md` implementation-neutral.
