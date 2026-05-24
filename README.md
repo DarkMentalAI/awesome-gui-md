@@ -92,7 +92,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md). Contributions must document structure, 
 
 Run `npm run ci` before opening a PR. It validates entries, runs site-build tests, and builds the static Pages output in `dist/`.
 
-Cloudflare Pages preview deploys are manual. Configure `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, and `CLOUDFLARE_PAGES_PROJECT`, then run the Pages Preview workflow.
+Cloudflare Pages preview deploys are manual. Production deploys run from the Pages Production workflow after a GitHub Release is published, or by manually choosing a release tag. Configure `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_PAGES_PROJECT`, and the `cloudflare-pages-production` environment before production use.
 
 ## License
 
