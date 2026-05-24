@@ -32,6 +32,6 @@
     "Result navigation must expose the active item programmatically.",
     "Loading, empty, and error states should be announced without relying on color alone."
   ],
-  "entry_status": "draft",
-  "last_reviewed": "2026-05-22"
+  "entry_status": "reviewed",
+  "last_reviewed": "2026-05-24"
 }
