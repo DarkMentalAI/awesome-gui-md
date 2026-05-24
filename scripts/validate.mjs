@@ -563,6 +563,16 @@ function extractTaxonomyCategories(markdown) {
   return new Set(categories);
 }
 
+function validateIndexRowsHaveEntries(indexRowsBySlug, entryDirs) {
+  const entrySlugs = new Set(entryDirs.map((entryDir) => path.basename(entryDir)));
+
+  for (const slug of indexRowsBySlug.keys()) {
+    if (!entrySlugs.has(slug)) {
+      addIssue(indexPath, `index row for ${slug} must match a gui-md entry directory`);
+    }
+  }
+}
+
 async function fileExists(filePath) {
   try {
     const stats = await fs.stat(filePath);
@@ -637,6 +647,8 @@ async function main() {
   const indexRowsBySlug = parseCollectionIndex(await readText(indexPath), indexPath);
   const entryDirs = await listEntryDirs();
   const seenSlugs = new Map();
+
+  validateIndexRowsHaveEntries(indexRowsBySlug, entryDirs);
 
   for (const entryDir of entryDirs) {
     await validateEntry(
