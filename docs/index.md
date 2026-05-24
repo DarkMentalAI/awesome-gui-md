@@ -2,7 +2,7 @@
 
 Compact chooser for current GUI.md entries.
 
-| Entry | Category | Status | Platform | Best fit | Avoid when | Coverage | Files |
+| Entry | Category | Entry status | Platform | Best fit | Avoid when | Coverage | Files |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [Command Palette](../gui-md/command-palette/) | Application Shells | reviewed | web | Productivity, developer, creation, or action-heavy admin surfaces | Guided navigation or destructive form actions matter more than speed | closed, opening, ready, filtering, loading, empty, error, confirming | [README](../gui-md/command-palette/README.md), [GUI](../gui-md/command-palette/GUI.md), [HTML](../gui-md/command-palette/HTML.md) |
 | [Data Dashboard](../gui-md/data-dashboard/) | Data Interfaces | reviewed | web | Analytics, admin, monitoring, finance, or operations workflows | Simple summaries or small mobile-first data sets | initial-loading, ready, filtered, empty, no-results, error, selected, permission-limited, mixed-permissions, processing | [README](../gui-md/data-dashboard/README.md), [GUI](../gui-md/data-dashboard/GUI.md), [HTML](../gui-md/data-dashboard/HTML.md) |

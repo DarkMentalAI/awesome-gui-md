@@ -18,7 +18,7 @@ Broaden the collection while keeping quality requirements explicit.
 
 - Add representative entries for Feedback and States, Creation Tools, Communication Interfaces, and System and Admin UI.
 - Introduce consistent frontmatter tags for category, surface type, complexity, platform, density, interaction model, and accessibility scope.
-- Add collection index tables that show category, status, target surfaces, and good-fit / bad-fit reuse notes.
+- Add collection index tables that show category, entry status, target surfaces, and good-fit / bad-fit reuse notes.
 - Strengthen contribution review by requiring examples to document edge states, destructive actions, keyboard behavior, and recovery paths.
 - Identify duplicated guidance across entries and move only stable, cross-entry rules into shared docs.
 

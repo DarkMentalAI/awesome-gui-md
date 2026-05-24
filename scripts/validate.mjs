@@ -272,7 +272,7 @@ function parseCollectionIndex(markdown, filePath) {
 
   const headers = parseTableCells(rows[headerRowIndex]);
   const entryIndex = headers.indexOf('Entry');
-  const requiredHeaders = ['Category', 'Status', 'Platform', 'Coverage', 'Files'];
+  const requiredHeaders = ['Category', 'Entry status', 'Platform', 'Coverage', 'Files'];
   const missingHeaders = requiredHeaders.filter((header) => !headers.includes(header));
   if (missingHeaders.length > 0) {
     addIssue(filePath, `index table must include ${missingHeaders.join(', ')} columns`);
@@ -310,7 +310,7 @@ function parseCollectionIndex(markdown, filePath) {
 
     rowsBySlug.set(slug, {
       category: cells[headers.indexOf('Category')],
-      status: cells[headers.indexOf('Status')],
+      entryStatus: cells[headers.indexOf('Entry status')],
       platform: parseCoverageCell(cells[headers.indexOf('Platform')]),
       coverage: parseCoverageCell(cells[headers.indexOf('Coverage')]),
       files: parseFileLinksCell(cells[headers.indexOf('Files')], slug, filePath),
@@ -516,9 +516,12 @@ async function validateMeta(filePath, text, categories, entryDir, seenSlugs, ind
 
     if (
       Object.prototype.hasOwnProperty.call(data, 'entry_status') &&
-      indexRow.status !== data.entry_status
+      indexRow.entryStatus !== data.entry_status
     ) {
-      addIssue(indexPath, `status for ${slug} must match ${toPosixPath(filePath)} entry_status`);
+      addIssue(
+        indexPath,
+        `entry status for ${slug} must match ${toPosixPath(filePath)} entry_status`,
+      );
     }
 
     if (
