@@ -44,6 +44,8 @@ V1 means the project is ready for a public 1.0 release posture. It is not only t
 - Contribution and review workflow is documented, including entry review, taxonomy changes, and adapter changes.
 - Before the 1.0 tag, links, generated artifacts, examples, and metadata are audited.
 
+Current evidence and remaining gates are tracked in [V1 readiness](v1-readiness.md).
+
 ## later
 
 Expand only after the document format and review process have proven useful.
