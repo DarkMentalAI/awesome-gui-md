@@ -33,6 +33,6 @@
     "Undo availability and expiry must not rely on color alone.",
     "Focus should remain stable unless recovery requires user attention."
   ],
-  "entry_status": "draft",
-  "last_reviewed": "2026-05-23"
+  "entry_status": "reviewed",
+  "last_reviewed": "2026-05-24"
 }
