@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm run ci
+      - name: Check tracked generated and local-only files
+        shell: bash
+        run: |
+          tracked="$(git ls-files dist docs/superpowers)"
+          if [ -n "$tracked" ]; then
+            echo "$tracked"
+            exit 1
+          fi

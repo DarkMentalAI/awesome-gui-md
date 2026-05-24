@@ -1,0 +1,30 @@
+name: Release Gate
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release-gate:
+    name: release-gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm run ci
+      - name: Confirm tag target is on main
+        if: github.ref_type == 'tag'
+        shell: bash
+        run: |
+          git fetch origin main --depth=1
+          target="$(git rev-list -n 1 "$GITHUB_REF_NAME")"
+          if ! git merge-base --is-ancestor "$target" origin/main; then
+            echo "Tag $GITHUB_REF_NAME does not point to a commit reachable from origin/main"
+            exit 1
+          fi

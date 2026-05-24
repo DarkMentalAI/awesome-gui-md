@@ -88,6 +88,12 @@ A useful entry explains:
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md). Contributions must document structure, state, interaction, and reuse guidance. Pure screenshots and unsourced visual inspiration are not accepted.
 
+## CI/CD
+
+Run `npm run ci` before opening a PR. It validates entries, runs site-build tests, and builds the static Pages output in `dist/`.
+
+Cloudflare Pages preview deploys are manual. Configure `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, and `CLOUDFLARE_PAGES_PROJECT`, then run the Pages Preview workflow.
+
 ## License
 
 MIT License - see [LICENSE](LICENSE). Individual product names and interface references remain the property of their owners.
