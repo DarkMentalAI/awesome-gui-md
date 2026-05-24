@@ -1,0 +1,13 @@
+{
+  "name": "awesome-gui-md",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:site": "node scripts/build-site.mjs",
+    "ci": "npm run validate && npm test && npm run build:site && npm run scan:secrets",
+    "scan:secrets": "node scripts/secret-scan.mjs",
+    "test": "node --test scripts/*.test.mjs",
+    "validate": "node scripts/validate.mjs"
+  }
+}
