@@ -12,12 +12,12 @@ and `CONTRIBUTING.md`.
 
 | Field | Current value |
 | --- | --- |
-| Current decision | Not ready for a public `1.0` tag |
+| Current decision | 1 of 4 seed entries reviewed; not ready for a public `1.0` tag |
 | Target release | Public `1.0` after seed Entry Review and final audit |
 | Last checked | 2026-05-24 |
 | Local validator | `node scripts/validate.mjs` passes with 4 entries checked |
 | CI configuration | `Validate` workflow runs `node scripts/validate.mjs` on PRs and `main` pushes |
-| Blockers | Seed entries are still `draft`; final release audit is not recorded |
+| Blockers | 3 seed entries are still `draft`; final release audit is not recorded |
 
 ## Evidence Ledger
 
@@ -26,7 +26,7 @@ and `CONTRIBUTING.md`.
 | File responsibilities | `README.md`, `docs/boundaries.md`, and `docs/schema.md` define `DESIGN.md`, `GUI.md`, `HTML.md`, and `meta.json` roles | evidenced | None unless wording drift appears |
 | Entry inventory | `docs/index.md` lists Command Palette, Data Dashboard, Settings Panel, and Undo Toast | evidenced | None |
 | Category coverage | Current entries cover Application Shells, Data Interfaces, Forms and Settings, and Feedback and States | evidenced | Recheck if the V1 category minimum changes |
-| Entry maturity | All seed entry `meta.json` files use `entry_status: draft` | blocker | Run Entry Review before marking entries `reviewed` |
+| Entry maturity | `command-palette` is `reviewed`; the other seed entries are `draft` | blocker | Run Entry Review for the remaining seed entries |
 | Review rules | `docs/evaluation.md` defines `pass`, `revise`, `reject`; `CONTRIBUTING.md` defines Entry, Taxonomy, and Adapter Review | evidenced | Add review records as entries are reviewed |
 | Validator and index metadata | `scripts/validate.mjs` checks structure, metadata, and index consistency; CI is configured to run the validator | evidenced | Confirm release-branch CI before tagging |
 | Release hygiene | PR template and contributing checks cover sources, licenses, validation, generated files, and sensitive material | pending audit | Run final release audit before tagging |
