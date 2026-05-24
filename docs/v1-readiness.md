@@ -12,12 +12,12 @@ and `CONTRIBUTING.md`.
 
 | Field | Current value |
 | --- | --- |
-| Current decision | V1 content and release hygiene gates are recorded; ready for a public `1.0` tag after release-branch validation |
+| Current decision | V1 content and release hygiene gates are recorded; ready for a public `1.0` tag after validating the tag target commit |
 | Target release | Public `1.0` after seed Entry Review and final audit |
 | Last checked | 2026-05-24 |
 | Local validator | `node scripts/validate.mjs` passes with 4 entries checked |
 | CI configuration | `Validate` workflow runs `node scripts/validate.mjs` on PRs and `main` pushes |
-| Blockers | Confirm `validate` passes on the release branch immediately before tagging |
+| Blockers | Confirm `validate` passes on the tag target commit immediately before tagging |
 
 ## Evidence Ledger
 
@@ -28,13 +28,13 @@ and `CONTRIBUTING.md`.
 | Category coverage | Current entries cover Application Shells, Data Interfaces, Forms and Settings, and Feedback and States | evidenced | Recheck if the V1 category minimum changes |
 | Entry maturity | `command-palette`, `data-dashboard`, `settings-panel`, and `undo-toast` are `reviewed` | evidenced | None |
 | Review rules | `docs/evaluation.md` defines `pass`, `revise`, `reject`; `CONTRIBUTING.md` defines Entry, Taxonomy, and Adapter Review | evidenced | Add review records as entries are reviewed |
-| Validator and index metadata | `scripts/validate.mjs` checks structure, metadata, index consistency, and orphan index rows; CI is configured to run the validator | evidenced | Confirm release-branch CI before tagging |
+| Validator and index metadata | `scripts/validate.mjs` checks structure, metadata, index consistency, and orphan index rows; CI is configured to run the validator | evidenced | Confirm tag target validation before tagging |
 | Release hygiene | Final audit found no tracked secrets, private content, generated artifacts, or uploaded local drafts; ignored `docs/superpowers/` drafts remain local only | evidenced | None |
-| Main branch protection | GitHub ruleset `Protect main` is active for the default branch, requires PRs, blocks force pushes/deletion, and requires `validate` status checks | evidenced | None |
+| Main branch protection | GitHub ruleset `Protect main` is active for the default branch, requires PRs, blocks force pushes/deletion, and requires `validate` status checks; early bootstrap commits before this rule are a recorded historical exception | evidenced | None |
 
 ## Open Items
 
-- Confirm `validate` passes on the release branch immediately before tagging.
+- Confirm `validate` passes on the tag target commit immediately before tagging.
 
 ## Naming Notes
 

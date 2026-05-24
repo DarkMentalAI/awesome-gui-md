@@ -39,7 +39,7 @@ V1 means the project is ready for a public 1.0 release posture. It is not only t
 - Canonical file responsibilities are documented for `GUI.md`, `DESIGN.md`, adapters, entries, and shared docs.
 - Seed entries meet the `docs/evaluation.md` pass criteria, with boundary issues resolved and accessibility follow-ups documented.
 - Coverage includes entries beyond the first three categories, or a minimum category count is published before the 1.0 release decision.
-- Validator and CI checks pass for the release branch.
+- Validator and CI checks pass for the tag target commit.
 - The evaluation rubric produces consistent pass, revise, or reject decisions during review.
 - Contribution and review workflow is documented, including entry review, taxonomy changes, and adapter changes.
 - Before the 1.0 tag, links, generated artifacts, examples, and metadata are audited.
